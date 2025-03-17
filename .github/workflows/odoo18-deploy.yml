@@ -3,7 +3,8 @@ name: Odoo18 CICD
 on:
   push:
     branches:
-      - main  # Change if using another branch
+      - main  # Change if using another branch ---Keep if deploying other modules from the main branch
+      - dms-odoo18  # Add this to deploy the DMS module
 
 jobs:
 
@@ -112,7 +113,10 @@ jobs:
               scp -i private_key -o StrictHostKeyChecking=no -r ./addons/insurance_management_cybro ubuntu@120.138.30.170:/opt/odoo18/odoo18-addons/
               scp -i private_key -o StrictHostKeyChecking=no -r ./addons/volunteers_donors_management ubuntu@120.138.30.170:/opt/odoo18/odoo18-addons/
 
-
+            
+              scp -i private_key -o StrictHostKeyChecking=no -r ./addons/dms-odoo18/dms ubuntu@120.138.30.170:/opt/odoo18/odoo18-addons/dms/
+              scp -i private_key -o StrictHostKeyChecking=no -r ./addons/dms-odoo18/dms_storage ubuntu@120.138.30.170:/opt/odoo18/odoo18-addons/dms/
+              scp -i private_key -o StrictHostKeyChecking=no -r ./addons/dms-odoo18/dms_attachment_link ubuntu@120.138.30.170:/opt/odoo18/odoo18-addons/dms/
 
 
 
