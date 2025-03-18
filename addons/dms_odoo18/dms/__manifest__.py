@@ -47,6 +47,7 @@
             "dms/static/src/scss/directory_kanban.scss",
             "dms/static/src/scss/file_kanban.scss",
             "dms/static/src/scss/dms_common.scss",
+            #removed web files from here not needed
             # JS
             "dms/static/src/models/*.js",
             "dms/static/src/js/fields/path_json/path_owl.esm.js",
