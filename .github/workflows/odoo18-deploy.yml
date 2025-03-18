@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main  # Change if using another branch ---Keep if deploying other modules from the main branch
-      - dms-odoo18  # Add this to deploy the DMS module
+      - dms-odoo18  # Add this to deploy the DMS module...
 
 jobs:
 
