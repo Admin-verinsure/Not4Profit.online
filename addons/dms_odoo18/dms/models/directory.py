@@ -17,7 +17,7 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.osv.expression import AND, OR
 from odoo.tools import consteq, human_size
 
-from odoo.addons.http_routing.models.ir_http import slugify
+from slugify import slugify
 
 from ..tools.file import check_name, unique_name
 

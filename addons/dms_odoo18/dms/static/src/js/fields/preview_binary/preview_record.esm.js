@@ -37,8 +37,6 @@ PreviewRecordField.props = {
 
 const previewRecordField = {
     component: PreviewRecordField,
-    dependencies: [BinaryField],
-    display_name: "Preview Record",
     supportedTypes: ["binary"],
     extractProps: () => {
         return {};

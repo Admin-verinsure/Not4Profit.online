@@ -42,7 +42,6 @@ DmsPathField.props = {
 
 const dmsPathField = {
     component: DmsPathField,
-    display_name: "Dms Path Field",
     supportedTypes: ["text"],
     extractProps: () => {
         return {};
