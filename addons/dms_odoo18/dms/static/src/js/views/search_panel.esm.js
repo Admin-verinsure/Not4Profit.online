@@ -3,8 +3,9 @@
  * Copyright 2024 Subteno - Timothée Vannier (https://www.subteno.com).
  * License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). */
 
- import { SearchPanel } from "@web/search/search_panel";
+ import { SearchPanel } from "@web/search/search_panel/search_panel";
  import { registry } from "@web/core/registry";
+ import { useState } from "@web/core/utils/hooks"; // For state management in Odoo components
  
  class DMSSearchPanel extends SearchPanel {
      // Override the method to handle category domains in a customized way
@@ -30,5 +31,6 @@
  registry.category("views").add("dms_search_panel", {
      type: "search", // The view type is 'search'
      component: DMSSearchPanel, // The component (customized SearchPanel) 
+     Controller: DMSSearchPanel, // Add the Controller definition here
  });
  
