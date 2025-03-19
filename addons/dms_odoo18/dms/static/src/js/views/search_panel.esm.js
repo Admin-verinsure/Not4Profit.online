@@ -6,31 +6,31 @@
  import { SearchPanel } from "@web/search/search_panel/search_panel";
  import { registry } from "@web/core/registry";
  import { useState } from "@web/core/utils/hooks"; // For state management in Odoo components
- 
+
  class DMSSearchPanel extends SearchPanel {
-     // Override the method to handle category domains in a customized way
-     _getCategoryDomain(excludedCategoryId) {
-         const domain = super._getCategoryDomain(...arguments);
-         for (const category of this.categories) {
-             if (category.id === Number(excludedCategoryId)) {
-                 continue;
-             }
- 
-             if (category.activeValueId) {
-                 domain.push([category.fieldName, "=", category.activeValueId]);
-             }
-             if (domain.length === 0 && this.resModel === "dms.directory") {
-                 domain.push([category.fieldName, "=", false]);
-             }
-         }
-         return domain;
-     }
+    constructor() {
+        super(...arguments);
+        this.state = useState({ searchTerm: "" }); // Initialize the state
+    }
+
+    _getCategoryDomain(excludedCategoryId) {
+        const domain = super._getCategoryDomain(...arguments);
+        // Example: Update the search term when you need
+        if (this.state.searchTerm) {
+            // You can apply the search term to the domain here if needed
+        }
+        return domain;
+    }
+
+    // You can create a method to update the state
+    _onSearchTermChange(newTerm) {
+        this.state.searchTerm = newTerm;
+    }
  }
- 
+
  // Register the search view with the appropriate category and component
  registry.category("views").add("dms_search_panel", {
-     type: "search", // The view type is 'search'
-     component: DMSSearchPanel, // The component (customized SearchPanel) 
-     Controller: DMSSearchPanel, // Add the Controller definition here
+    type: "search",
+    component: DMSSearchPanel,
+    Controller: DMSSearchPanel,
  });
- 
