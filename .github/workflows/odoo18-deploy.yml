@@ -61,11 +61,6 @@ jobs:
        # run: |
         # scp -r ./addons/account_move_multi_cancel root@103.19.4.104:/opt/odoo/addons/Not4Profit.online/addons/
        
-          
-      #- name: Update Odoo Database
-      #  run: |
-       #   ssh root@103.19.4.104 "sudo -u odoo /odoo-venv/bin/python /opt/odoo/odoo-bin -c /opt/odoo/debian/odoo.conf -d Not4ProfitOrganisation -u all
-        #  "
 
 
       - name: 📂 Deploy Module to Odoo Server
