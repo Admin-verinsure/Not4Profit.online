@@ -13,6 +13,8 @@ from odoo.osv.expression import (
     OR,
     TRUE_DOMAIN,
 )
+from odoo.exceptions import UserError
+
 
 _logger = getLogger(__name__)
 
@@ -161,7 +163,9 @@ class DmsSecurityMixin(models.AbstractModel):
             "unlink": "AND dag.perm_inclusive_unlink",
             "write": "AND dag.perm_inclusive_write",
         }[operation]
-        select = f"""
+
+        # Construct the SQL query with the current user ID
+        query = f"""
             SELECT
                 dir_group_rel.aid
             FROM
@@ -171,27 +175,34 @@ class DmsSecurityMixin(models.AbstractModel):
                 INNER JOIN dms_access_group_users_rel AS users
                     ON users.gid = dag.id
             WHERE
-                users.uid = %s {operation_check}
-            """
-        return select, (self.env.uid,)
+                users.uid = {self.env.uid} {operation_check}
+        """
+        # Execute the query to fetch the list of 'aid' values
+        self.env.cr.execute(query)
+        result = self.env.cr.fetchall()
+        aid_values = [row[0] for row in result]
+
+        if not aid_values:
+            raise UserError("No access rights found for the current user.")
+
+        # Return the query result as the list of IDs to be used in the domain
+        return aid_values
+
 
     @api.model
     def _get_domain_by_access_groups(self, operation):
         """Get domain for records accessible applying DMS access groups."""
-        result = [
-            (
-                "%s.storage_id_inherit_access_from_parent_record"
-                % self._directory_field,
-                "=",
-                False,
-            ),
-            (
-                self._directory_field,
-                "inselect",
-                self._get_access_groups_query(operation),
-            ),
+        # Execute the query to fetch the list of IDs
+        query, params = self._get_access_groups_query(operation)
+        self.env.cr.execute(query, params)
+        allowed_directory_ids = [row[0] for row in self.env.cr.fetchall()]
+
+        # Return the domain with "in" instead of "inselect"
+        return [
+            ("%s.storage_id_inherit_access_from_parent_record" % self._directory_field, "=", False),
+            (self._directory_field, "in", allowed_directory_ids),  # Fixing "inselect" issue
         ]
-        return result
+
 
     @api.model
     def _get_permission_domain(self, operator, value, operation):
