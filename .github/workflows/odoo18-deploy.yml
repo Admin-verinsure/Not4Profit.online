@@ -111,8 +111,6 @@ jobs:
               scp -i private_key -o StrictHostKeyChecking=no -r ./addons/dms ubuntu@120.138.30.170:/opt/odoo18/odoo18-addons/dms/
 
 
-
-
       - name: Start Odoo Server
         run: |
               ssh -i private_key -o StrictHostKeyChecking=no ubuntu@120.138.30.170 "echo '${{ secrets.SUDO_PASSWORD }}' | sudo -S systemctl start odoo18"
