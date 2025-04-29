@@ -1,0 +1,12 @@
+[project]
+name = "odoo-addons-oca-dms"
+version = "18.0.20250416.0"
+dependencies = [
+    "odoo-addon-dms==18.0.*",
+    "odoo-addon-dms_user_role==18.0.*",
+]
+classifiers=[
+    "Programming Language :: Python",
+    "Framework :: Odoo",
+    "Framework :: Odoo :: 18.0",
+]
