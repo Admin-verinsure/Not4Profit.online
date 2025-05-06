@@ -96,7 +96,6 @@ jobs:
               scp -i private_key -o StrictHostKeyChecking=no -r ./addons/event ubuntu@120.138.30.170:/opt/odoo18/odoo18-addons/
               scp -i private_key -o StrictHostKeyChecking=no -r ./addons/website_event ubuntu@120.138.30.170:/opt/odoo18/odoo18-addons/
               scp -i private_key -o StrictHostKeyChecking=no -r ./addons/membership ubuntu@120.138.30.170:/opt/odoo18/odoo18-addons/
-              scp -i private_key -o StrictHostKeyChecking=no -r ./dms-addons/dms ubuntu@120.138.30.170:/opt/odoo18/dms-addons/
               scp -i private_key -o StrictHostKeyChecking=no -r ./addons/ldap_reset_password ubuntu@120.138.30.170:/opt/odoo18/odoo18-addons/
               scp -i private_key -o StrictHostKeyChecking=no -r ./addons/rotary_project_map ubuntu@120.138.30.170:/opt/odoo18/odoo18-addons/
               scp -i private_key -o StrictHostKeyChecking=no -r ./addons/membership_rotary_modifications ubuntu@120.138.30.170:/opt/odoo18/odoo18-addons/
