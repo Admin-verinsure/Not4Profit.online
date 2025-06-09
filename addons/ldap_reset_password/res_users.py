@@ -10,7 +10,7 @@ class ResUsers(models.Model):
     _inherit = 'res.users'
 
     @classmethod
-    def authenticate(cls, db, login, password, user_agent_env):
+    def authenticate(cls, db, login, password, user_agent_env=None):
         res = cls._login(db, login, password)
         if isinstance(res, tuple):
             uid, _ = res
