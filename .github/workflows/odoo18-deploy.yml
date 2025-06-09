@@ -12,10 +12,10 @@ on:
           - all
           - not4profit
           - rawcs
-  push:
-    branches:
-      - main
-      - dms-odoo18
+  #push:
+  #  branches:
+  #    - main
+  #    - dms-odoo18
 
 jobs:
   deploy:
@@ -25,9 +25,11 @@ jobs:
       matrix:
         server: [not4profit, rawcs]
 
-    if: github.event.inputs.deploy_to == 'all' || github.event.inputs.deploy_to == matrix.server
-
     steps:
+    - name: ⏩ Skip if not selected server
+      if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.deploy_to != 'all' && github.event.inputs.deploy_to != matrix.server }}
+      run: echo "Skipping server ${{ matrix.server }}"
+
     - name: 📥 Checkout repository
       uses: actions/checkout@v3
 
@@ -36,7 +38,7 @@ jobs:
         if [ "${{ matrix.server }}" = "not4profit" ]; then
           echo "SSH_USER=${{ secrets.NFP_SSH_USER }}" >> $GITHUB_ENV
           echo "SERVER_IP=${{ secrets.NFP_SERVER_IP }}" >> $GITHUB_ENV
-          echo "${{ secrets.SSH_PRIVATE_KEY_NFP }}" > private_key
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key
         else
           echo "SSH_USER=${{ secrets.RAWCS_SSH_USER }}" >> $GITHUB_ENV
           echo "SERVER_IP=${{ secrets.RAWCS_SERVER_IP }}" >> $GITHUB_ENV
