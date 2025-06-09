@@ -17,7 +17,6 @@ from odoo.http import content_disposition, Controller, request, route
 from odoo.addons.auth_signup.controllers.main import AuthSignupHome as AuthSignupController
 from odoo.addons.mail.models.mail_mail import MailMail
 from odoo.addons.mail.models.mail_template import MailTemplate
-from odoo.addons.web.controllers.home import Home
 #from odoo.addons.web.controllers.main import Home
 
 _logger = logging.getLogger(__name__)
@@ -155,7 +154,7 @@ class LDAPResetController(http.Controller):
                     if changed:
                         _logger.info("Password reset has succeeded for: " + username + ".")
 
-                        # Set Odoo password to nothing so that LDAP is primary form of authentication
+                        # Set Flectra password to nothing so that LDAP is primary form of authentication
                         user.password = ''
                         user.sudo()._set_password()
                         return http.request.render('ldap_reset_password.portal_thanks', {'message': 'Password reset has succeeded for {}'.format(username)})

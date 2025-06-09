@@ -38,7 +38,6 @@
     'assets': {
         'web.assets_backend': [
             'odoo_website_helpdesk_dashboard/static/src/css/dashboard.css',
-            'odoo_website_helpdesk_dashboard/static/src/js/lib/Chart.bundle.js',
             'odoo_website_helpdesk_dashboard/static/src/js/dashboard_view.js',
             'odoo_website_helpdesk_dashboard/static/src/xml/dashboard_view.xml',
             'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js'

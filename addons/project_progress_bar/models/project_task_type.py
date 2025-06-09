@@ -37,33 +37,30 @@ class ProjectTaskType(models.Model):
     @api.constrains('progress_bar', 'sequence')
     def project_progress_bar(self):
         """The Constraints for the project Task Type Model"""
-        all_progress = self.env['project.task.type'].search([]).filtered(
-            lambda
-                progress: progress.is_progress_stage == True and progress.id != self.id)
-        res1 = {}
-        for rec in all_progress:
-            res1[rec.progress_bar] = rec.sequence
-        if self.progress_bar in res1.keys():
-            raise UserError('Ensure that the progress is not duplicated.')
-        for rec in self.env['project.task.type'].search([]).filtered(
-                lambda progress: progress.is_progress_stage == True and progress.id != self.id).mapped(
-            'progress_bar'):
-            value = [i for i in res1 if i == rec]
-            if self.progress_bar < rec:
-                if float(self.sequence) >= res1[value[0]]:
-                    raise UserError(
-                        'The progress in this stage must greater than that of the '
-                        'other stages progress bars. Alternatively, reassess '
-                        'the priority assigned to this stage.')
+        for stage in self:
+            all_progress = self.env['project.task.type'].search([]).filtered(
+                lambda progress: progress.is_progress_stage and progress.id != stage.id
+            )
+            res1 = {rec.progress_bar: rec.sequence for rec in all_progress}
+
+            if stage.progress_bar in res1:
+                raise UserError('Ensure that the progress is not duplicated.')
+
+            for rec in all_progress.mapped('progress_bar'):
+                if stage.progress_bar < rec:
+                    if float(stage.sequence) >= res1[rec]:
+                        raise UserError(
+                            'The progress in this stage must be greater than that of the '
+                            'other stages progress bars. Alternatively, reassess '
+                            'the priority assigned to this stage.'
+                        )
                 else:
-                    continue
-            else:
-                if float(self.sequence) < res1[value[0]]:
-                    raise UserError(
-                        'The progress in this stage must less than that of the'
-                        'other stages progress bars. Alternatively, reassess '
-                        'the priority assigned to this stage.')
-                else:
-                    continue
-        if self.progress_bar > 100:
-            raise UserError('The progress must be less than or equal to 100')
+                    if float(stage.sequence) < res1[rec]:
+                        raise UserError(
+                            'The progress in this stage must be less than that of the '
+                            'other stages progress bars. Alternatively, reassess '
+                            'the priority assigned to this stage.'
+                        )
+
+            if stage.progress_bar > 100:
+                raise UserError('The progress must be less than or equal to 100')
