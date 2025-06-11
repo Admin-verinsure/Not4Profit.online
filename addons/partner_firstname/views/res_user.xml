@@ -1,0 +1,28 @@
+<odoo>
+    <record id="view_users_form" model="ir.ui.view">
+        <field name="name">Add firstname and surnames</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="readonly">True</attribute>
+                <attribute name="required">False</attribute>
+            </xpath>
+            <xpath expr="//field[@name='email']" position="after">
+                <group>
+                    <field
+                        name="lastname"
+                        required="form_has_lastname_first and not firstname"
+                        invisible="not form_has_lastname_first"
+                    />
+                    <field name="firstname" required="not lastname" />
+                    <field
+                        name="lastname"
+                        required="not form_has_lastname_first and not firstname"
+                        invisible="form_has_lastname_first"
+                    />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
