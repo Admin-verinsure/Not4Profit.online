@@ -13,5 +13,5 @@ class LdapResetPassword(http.Controller):
 
         return request.render("ldap_module.ldap_reset_password.fields", {
             'clubs': clubs,
-            'program_type': program_type
+            'program_types': program_type
         })
