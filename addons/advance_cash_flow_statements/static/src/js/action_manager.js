@@ -4,8 +4,8 @@ import { BlockUI } from "@web/core/ui/block_ui";
 import { download } from "@web/core/network/download";
 
 // This function is responsible for generating and downloading an XLSX report.
-registry.category("ir.actions.report handlers").add("xlsx", async function (action){
-    if (action.report_type === 'xlsx') {
+registry.category("ir.actions.report handlers").add("xlsx_cashflow", async function (action){
+    if (action.report_type === 'xlsx_cashflow') {
         const blockUI = new BlockUI();
         await download({
             url: '/cash_flow_xlsx_reports',
