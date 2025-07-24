@@ -12,6 +12,7 @@ on:
           - all
           - not4profit
           - rawcs
+          - verinsure
   #push:
   #  branches:
   #    - main
@@ -23,7 +24,7 @@ jobs:
 
     strategy:
       matrix:
-        server: [not4profit, rawcs]
+        server: [not4profit, rawcs, verinsure]
 
     steps:
     - name: ⏩ Skip if not selected server
@@ -38,11 +39,18 @@ jobs:
         if [ "${{ matrix.server }}" = "not4profit" ]; then
           echo "SSH_USER=${{ secrets.NFP_SSH_USER }}" >> $GITHUB_ENV
           echo "SERVER_IP=${{ secrets.NFP_SERVER_IP }}" >> $GITHUB_ENV
+          echo "SUDO_PASSWORD=${{ secrets.NFP_SUDO_PASSWORD }}" >> $GITHUB_ENV
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key
-        else
+        elif [ "${{ matrix.server }}" = "rawcs" ]; then
           echo "SSH_USER=${{ secrets.RAWCS_SSH_USER }}" >> $GITHUB_ENV
           echo "SERVER_IP=${{ secrets.RAWCS_SERVER_IP }}" >> $GITHUB_ENV
+          echo "SUDO_PASSWORD=${{ secrets.RAWCS_SUDO_PASSWORD }}" >> $GITHUB_ENV
           echo "${{ secrets.SSH_PRIVATE_KEY_RAWCS }}" > private_key
+        elif [ "${{ matrix.server }}" = "verinsure" ]; then  # ✅ Add this block
+          echo "SSH_USER=${{ secrets.VERINSURE_SSH_USER }}" >> $GITHUB_ENV
+          echo "SERVER_IP=${{ secrets.VERINSURE_SERVER_IP }}" >> $GITHUB_ENV
+          echo "SUDO_PASSWORD=${{ secrets.VERINSURE_SUDO_PASSWORD }}" >> $GITHUB_ENV
+          echo "${{ secrets.SSH_PRIVATE_KEY_VERINSURE }}" > private_key
         fi
         chmod 600 private_key
 
